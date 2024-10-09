@@ -4,7 +4,7 @@ def einfacher_taschenrechner(eingabe):
     eingabe = eingabe.replace(" ", "")
 
     # Erlaube nur Zeichen, die für den Taschenrechner relevant sind
-    erlaubte_zeichen = "0123456789+-*/%^()"
+    erlaubte_zeichen = "0123456789+-*/%^()."
     
     if not all(char in erlaubte_zeichen for char in eingabe):
         return "Ungültige Eingabe!"
@@ -36,9 +36,10 @@ def klammern_sind_korrekt(eingabe):
 
 # Beispielverwendung
 print("Rechne wie in einem Taschenrechner\n^ : Hoch\n+ : Plus\n- : Minus\n* : Mahl\n/ : Geteilt")
-example = "1^4*3*(3+4)"
-print("Beispiel : 1^4*3*(3+4)")
+example = "1^4*3*(3.5+4)"
+print("Beispiel : 1^4*3*(3.5+4)")
 print(f"Ergebnis: {einfacher_taschenrechner(example)}")
+
 while True:
     eingabe = input("Gib deinen Ausdruck ein: ")
     print(f"Ergebnis: {einfacher_taschenrechner(eingabe)}")
