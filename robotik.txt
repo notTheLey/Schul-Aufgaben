@@ -112,4 +112,152 @@ example:
           id: "00000002"
 
 
+map.py:
+import yaml
+from math import sqrt
+
+class Map:
+    def __init__(self, id, name, ways, size, colors, locs):
+        self.id = id
+        self.name = name
+        self.size = size
+        self.locs = locs
+        self.ways = ways
+        self.colors = colors
+
+    def getID(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getSize(self):
+        return self.size
+    
+    def getLocs(self):
+        return self.locs
+    
+    def getWays(self):
+        return self.ways
+    
+    def getColors(self):
+        return self.colors
+
+    def getInfoPos(self, x, y):
+        # Initialisiere den nächsten Punkt als None
+        nearest_loc = None
+        min_distance = float('inf')  # Großer Startwert für den Abstand
+        
+        # Gehe durch alle Locations und finde die nächstgelegene
+        for loc in self.locs:
+            loc_x, loc_y = loc.getPos()
+            distance = sqrt((loc_x - x) ** 2 + (loc_y - y) ** 2)  # euklidische Distanz
+            
+            if distance == 0:  # Wenn es exakt die Position ist
+                return loc
+            
+            if distance < min_distance:
+                min_distance = distance
+                nearest_loc = loc
+        
+        return nearest_loc
+
+# Anpassung des loadMap
+def loadMap(path, mapname):
+    print(f"Lade Karte {mapname} ...")
+
+    # Öffne und lade die YAML-Datei
+    with open(path, 'r') as file:
+        data = yaml.safe_load(file)
+    
+    # Suche die Map nach dem Mapnamen
+    map_data = data.get(mapname, None)
+    if not map_data:
+        raise ValueError(f"Map {mapname} nicht gefunden.")
+
+    # Lade die Größe der Map
+    map_size = (map_data['size']['x'], map_data['size']['y'])
+
+    # Lade alle Locations
+    locs = []
+    for loc_data in map_data['locs']:
+        loc = loc_data['loc']
+        loc_obj = Loc(
+            loc['id'],
+            loc['name'],
+            None,  # Farbe ist nicht im Beispiel enthalten
+            (loc['pos']['x'], loc['pos']['y'])
+        )
+        locs.append(loc_obj)
+
+    # Lade alle Wege
+    ways = []
+    for way_data in map_data['ways']:
+        way = way_data['way']
+        from_locs = [
+            next(loc for loc in locs if loc.getID() == from_loc['loc']['id'])
+            for from_loc in way['from']
+        ]
+        way_obj = Way(
+            way['id'],
+            way['name'],
+            None,  # Farbe ist nicht im Beispiel enthalten
+            from_locs
+        )
+        ways.append(way_obj)
+
+    # Erstelle das Map-Objekt
+    loaded_map = Map(map_data['id'], map_data['name'], ways, map_size, None, locs)
+    print(f"Karte {mapname} erfolgreich geladen.")
+    return loaded_map
+
+class Loc:
+    def __init__(self, id, name, color, pos):
+        self.id = id
+        self.name = name
+        self.color = color
+        self.pos = pos
+
+    def getID(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getColor(self):
+        return self.color
+    
+    def getPos(self):
+        return self.pos
+    
+    def getPosX(self):
+        return self.pos[0]
+    
+    def getPosY(self):
+        return self.pos[1]
+
+class Way:
+    def __init__(self, id, name, color, locs):
+        self.id = id
+        self.name = name
+        self.color = color
+        self.locs = locs
+
+    def getID(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getColor(self):
+        return self.color
+    
+    def getLocs(self):
+        return self.locs
+    
+    def getLoc1(self):
+        return self.locs[0]
+    
+    def getLoc2(self):
+        return self.locs[1]
 
