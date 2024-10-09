@@ -1,1 +1,115 @@
+map.py:
+class Map:
+    def __init__(self, id, name, ways, size, colors, locs):
+        self.id = id
+        self.name = name
+        self.size = size
+        self.locs = locs
+        self.ways = ways
+        self.colors = colors
+
+    def getID(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getSize(self):
+        return self.size
+    
+    def getLocs(self):
+        return self.locs
+    
+    def getWays(self):
+        return self.ways
+    
+    def getColors(self):
+        return self.colors
+    
+    
+
+class Loc:
+    def __init__(self, id, name, color, pos):
+        self.id = id
+        self.name = name
+        self.color = color
+        self.pos = pos
+
+    def getID(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getColor(self):
+        return self.color
+    
+    def getPos(self):
+        return self.pos
+    
+    def getPosX(self):
+        return self.pos[0]
+    
+    def getPosY(self):
+        return self.pos[1]
+    
+class Way:
+    def __init__(self, id, name, color, locs):
+        self.id = id
+        self.name = name
+        self.color = color
+        self.locs = locs
+
+    def getID(self):
+        return self.id
+    
+    def getName(self):
+        return self.name
+    
+    def getColor(self):
+        return self.color
+    
+    def getLocs(self):
+        return self.locs
+    
+    def getLoc1(self):
+        return self.locs[0]
+    
+    def getLoc1(self):
+        return self.locs[1]
+    
+def loadMap(self, path, mapname):
+    print(f"loading {mapname} ...")
+
+maps.yml (testmap):
+example:
+  id: "00123456"
+  name: "examplemap"
+  size:
+    x: 300
+    y: 100
+  locs:
+    -loc:
+      id: "00000001"
+      name: "examplemap"
+      pos: 
+        x: 150
+        y: 50
+    -loc:
+      id: "00000002"
+      name: "examplemap"
+      pos: 
+        x: 0
+        y: 50
+  ways:
+    -way:
+      id: "00000001"
+      name: "examplemap"
+      from:
+        -loc:
+          id: "00000001"
+        -loc:
+          id: "00000002"
+
+
 
